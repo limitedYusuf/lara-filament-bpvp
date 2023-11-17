@@ -38,9 +38,12 @@ class BlogResource extends Resource
         return $table
             ->columns([
                 // apa aja sih yang mau ditampilkan
-                TextColumn::make('id'),
-                TextColumn::make('title'),
-                TextColumn::make('content'),
+                // bisa juga cosplay seperti datatable "sortable, searchable". namun tidak perlu plugin tambahan.
+                // limit untuk membatasi string
+                TextColumn::make('id')->sortable(),
+                TextColumn::make('title')->searchable()->sortable(),
+                TextColumn::make('created_at')->searchable()->sortable(),
+                TextColumn::make('content')->limit(20)->markdown()->sortable()->searchable(),
             ])
             ->filters([
                 // kalau ada filter, misal munculkan data yg status nya 1
