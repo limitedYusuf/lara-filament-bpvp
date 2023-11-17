@@ -8,11 +8,13 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\RichEditor;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\BlogResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -28,9 +30,13 @@ class BlogResource extends Resource
     {
         return $form
             ->schema([
-                // untuk generate form html nya
-                // alternatif dari tinymce
+                // untuk generate form html nya                
                 TextInput::make('title')->columnSpan('full')->required(),
+                // toggle radio
+                // label untuk set label
+                // column anggap seperti grid / col di tailwind or bootstrap
+                Toggle::make('is_active')->columnSpan('full')->label('Active'),
+                // alternatif dari tinymce
                 RichEditor::make('content')->columnSpan('full')->required(),
             ]);
     }
@@ -44,8 +50,10 @@ class BlogResource extends Resource
                 // limit untuk membatasi string
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('created_at')->searchable()->sortable(),
+                // karena rencana ingin ada toggle jadi harus memakai "ToggleColumn"
+                ToggleColumn::make('is_active')->searchable(),
                 TextColumn::make('content')->limit(20)->markdown()->sortable()->searchable(),
+                TextColumn::make('created_at')->searchable()->sortable(),
             ])
             ->filters([
                 // kalau ada filter, misal munculkan data yg status nya 1

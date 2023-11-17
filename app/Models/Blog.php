@@ -11,6 +11,11 @@ class Blog extends Model
 
     protected $fillable = [
         'title',
-        'content'
+        'content',
+        'is_active'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 }
