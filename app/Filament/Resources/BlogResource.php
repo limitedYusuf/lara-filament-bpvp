@@ -2,20 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BlogResource\Pages;
-use App\Filament\Resources\BlogResource\RelationManagers;
-use App\Models\Blog;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\Blog;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Filament\Forms\Components\TextInput;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\BlogResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\BlogResource\RelationManagers;
 
 class BlogResource extends Resource
 {
@@ -28,8 +29,9 @@ class BlogResource extends Resource
         return $form
             ->schema([
                 // untuk generate form html nya
-                TextInput::make('title')->required(),
-                Textarea::make('content')->required(),
+                // alternatif dari tinymce
+                TextInput::make('title')->columnSpan('full')->required(),
+                RichEditor::make('content')->columnSpan('full')->required(),
             ]);
     }
 
