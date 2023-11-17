@@ -12,10 +12,12 @@ class Blog extends Model
     protected $fillable = [
         'title',
         'content',
+        'images',
         'is_active'
     ];
 
     protected $casts = [
+        'images'    => 'array',
         'is_active' => 'boolean',
     ];
 }

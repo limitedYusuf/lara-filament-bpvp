@@ -10,6 +10,8 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Tables\Columns\ToggleColumn;
 use App\Filament\Resources\BlogResource\Pages;
@@ -30,6 +32,8 @@ class BlogResource extends Resource
                 // label untuk set label
                 // column anggap seperti grid / col di tailwind or bootstrap
                 Toggle::make('is_active')->columnSpan('full')->label('Active'),
+                // input file dengan kondisi image only & tersedia image editor & pastikan private
+                FileUpload::make('images')->disk('public')->columnSpan('full')->multiple()->image()->imageEditor()->visibility('private'),
                 // alternatif dari tinymce
                 RichEditor::make('content')->columnSpan('full')->required(),
             ]);
@@ -46,6 +50,8 @@ class BlogResource extends Resource
                 TextColumn::make('title')->searchable()->sortable(),
                 // karena rencana ingin ada toggle jadi harus memakai "ToggleColumn"
                 ToggleColumn::make('is_active')->searchable(),
+                // tampilkan image dalam bentuk bulat dan private (url sementara)
+                ImageColumn::make('images')->circular()->stacked()->visibility('private'),
                 TextColumn::make('content')->limit(20)->markdown()->sortable()->searchable(),
                 TextColumn::make('created_at')->searchable()->sortable(),
             ])
